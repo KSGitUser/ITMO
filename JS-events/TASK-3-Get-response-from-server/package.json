@@ -1,0 +1,18 @@
+{
+  "name": "TASK-3-Get-response-from-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "KSGitUser",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0"
+  },
+  "dependencies": {
+    "eslint-config-prettier": "^6.11.0",
+    "global": "^4.4.0",
+    "prettier": "^2.1.2"
+  }
+}
