@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .js-events__wrapper-div {
+            width: 250px;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid lightgray;
+        }
+
+        .js-events__input-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .js-events__input-wrapper {
+            background-color: transparent;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="js-events__wrapper-div">
+        <div class="js-events__input-wrapper">
+            <h4 class="js-events__input-title">Choose color</h4>
+            <input class="js-events__input-color" type="color">
+        </div>
+    </div>
+    <h4 id="author" title="GossJS">Крикун Сергей (с)2020</h4>
+</body>
+<script> {
+ const inputEl = document.querySelector('.js-events__input-color');
+ const wrapperDivEl = document.querySelector('.js-events__wrapper-div');
+ const inputTitle = document.querySelector('.js-events__input-title');
+ let rgbColor;
+ let backgroudColor;
+
+ const convertHexToRgb = (hexValue) => {
+    hexValue = hexValue.replace('#', '');
+    const aRgbHex = hexValue.match(/.{1,2}/g);
+    return {
+        red: parseInt(aRgbHex[0], 16),
+        green: parseInt(aRgbHex[1], 16),
+        blue: parseInt(aRgbHex[2], 16)
+    }
+ }
+
+ const changeWrapperDivBackground = (e) => {
+    console.log(e.target.value);
+    rgbColor =  convertHexToRgb(e.target.value);
+    backgroudColor = `rgb(${rgbColor.red}, ${rgbColor.green}, ${rgbColor.blue})`;
+    inverseBackgroundColor = `rgb(${255-rgbColor.red}, ${255-rgbColor.green}, ${255-rgbColor.blue})`;
+    wrapperDivEl.style.backgroundColor = backgroudColor;
+    inputTitle.style.color = inverseBackgroundColor;
+ }
+
+ rgbColor =  convertHexToRgb(inputEl.value);
+ backgroudColor = `rgb(${rgbColor.red}, ${rgbColor.green}, ${rgbColor.blue})`;
+ inverseBackgroundColor = `rgb(${255-rgbColor.red}, ${255-rgbColor.green}, ${255-rgbColor.blue})`;
+ wrapperDivEl.style.backgroundColor = backgroudColor;
+ inputTitle.style.color = inverseBackgroundColor;
+
+ inputEl.addEventListener("input", changeWrapperDivBackground);
+ wrapperDivEl.addEventListener("mouseover", () => {
+    wrapperDivEl.style.backgroundColor = inverseBackgroundColor;
+    inputTitle.style.color = backgroudColor;
+     })
+ wrapperDivEl.addEventListener("mouseleave", () => {
+    wrapperDivEl.style.backgroundColor = backgroudColor;
+    inputTitle.style.color = inverseBackgroundColor;
+   })   
+}
+</script>
+</html>

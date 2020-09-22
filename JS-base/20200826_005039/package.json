@@ -1,0 +1,9 @@
+{
+  "name": "20200826_005039",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "diff2html-cli": "^5.1.2"
+  }
+}
