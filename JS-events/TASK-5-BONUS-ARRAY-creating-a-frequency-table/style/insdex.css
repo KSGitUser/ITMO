@@ -1,0 +1,12 @@
+.table__wrapper {
+    display: grid;
+    grid-template-columns: fit-content(200px) fit-content(100px);
+    grid-gap: 8px;
+    margin: 16px;
+}
+
+.table__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
