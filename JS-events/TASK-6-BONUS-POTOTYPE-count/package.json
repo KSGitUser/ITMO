@@ -1,0 +1,10 @@
+{
+  "name": "TASK-6-BONUS-POTOTYPE-count",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "author": "Sergey Krikun",
+  "license": "MIT",
+  "dependencies": {
+    "require-from-url": "^3.1.3"
+  }
+}
