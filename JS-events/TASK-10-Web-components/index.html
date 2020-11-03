@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="import" href="sk-counter.html" />
+    <style>
+      .disable-select {
+        user-select: none; /* supported by Chrome and Opera */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+      }
+
+      .frameworks-wrapper {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .frameworks-title {
+        display: flex;
+        margin-left: 10px;
+      }
+      
+      sk-counter {
+        width: fit-content;
+      }
+      
+
+    </style>
+  </head>
+  <body>
+    <template id="t">
+    <style>
+        :host {
+          zoom: 123%;
+          display: inline;
+          cursor: pointer;
+          border: solid 1px silver;
+          border-radius: 5px;
+          padding: 6px;
+          background-color: #1A73E8;
+          color: white;
+          margin: 8px
+        }
+    </style>
+    <span><slot name="text"></slot></span>
+    <span><slot name="val"></slot></span>
+    </template>
+  
+    <div id="app" class="frameworks-wrapper">
+      <h2 class="frameworks-title">Click on framework name to add star, click on star to remove star</h1>
+    </div>
+
+<script src="src/sk-counter.js"></script>
+<script>
+  const fetchData = async () => {
+    const response = await fetch('https://kodaktor.ru/j/react5b_6cbf2');
+    return await response.json();
+  };
+
+  (async () => {
+    const data = await fetchData();
+    const counterElement = document.createElement('sk-counter');
+    counterElement.classList.add("disable-select")
+    data.forEach((item) => {
+      counterElement.innerHTML = `
+        <span slot="text">${item.title}:</span>
+        <span slot="val">${item.votes}</span>
+      `;
+      const mainComponent = document
+        .getElementById('app')
+        .appendChild(counterElement.cloneNode(true));
+    });
+  })();
+</script>
+
+  </body>
+</html>
