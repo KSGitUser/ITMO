@@ -6,46 +6,90 @@
     <title>Fina project cart</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.3.0/handlebars.min.js"></script>
+    <style>
+      .shop-budjet__wrapper {
+        display: flex;
+        align-items: center;
+      }
+
+      .p-t-8 {
+        padding-top: 8px;
+      }
+
+      .p-b-8 {
+        padding-bottom: 8xp;
+      }
+
+      .p-t-b-8 {
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+
+      .p-8 {
+        padding: 8px;
+      }
+
+      .m-t-b-8 {
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+
+      .border-b {
+        border-bottom: 2px solid #8e8e8e;
+      }
+
+      .shop-budjet__label {
+        font-size: 12px;
+      }
+    </style>
   </head>
   <body>
-    <div id="app">Handlebars</div>
+    <div id="app">Корзина с использованием handlebars, jquery</div>
 
     <script class="shop-budjet" type="text/x-handlebars-template">
-      <div calss='shop-budjet__wrapper'>
-        <span>
-          Бюджет :
-        </span>
-        <span class='shop-budjet__amount' contenteditable='true'>
-          {{this}}
-        </span>
+      <div class='shop-budjet__container p-t-b-8 m-t-b-8 border-b'>
+        <div class='shop-budjet__wrapper'>
+          <span>
+            Бюджет :
+          </span>
+          <span class='shop-budjet__amount p-8' contenteditable='true'>
+            {{this}}
+          </span>
+        </div>
+        <div class='shop-budjet__label'>
+          Бюджет можно редактировать
+        </div>
       </div>
     </script>
 
     <script class="shop-item" type="text/x-handlebars-template">
-      {{#each this}}
-        <div data-index={{index}} class='shop-item__wrapper'>
-          <span class='shop-item__name'>
-            {{title}}
-          </span>
-          <span class='shop-item__price'>
-            {{price}}
-          </span>
-          <button class='shop-item__button' data-index={{index}}>
-            В корзину
-          </button>
-        </div>
-      {{/each}}
+      <div class='shop-item p-t-b-8 p-t-b-8 m-t-b-8 border-b'>
+        {{#each this}}
+          <div data-index={{index}} class='shop-item__wrapper p-t-b-8'>
+            <span class='shop-item__name'>
+              {{title}}
+            </span>
+            <span class='shop-item__price'>
+              {{price}}
+            </span>
+            <button class='shop-item__button' data-index={{index}}>
+              В корзину
+            </button>
+          </div>
+        {{/each}}
+      </div>
 
       <div class='shop-cart__wrapper'>
         <h3>
           Корзина
         </h3>
-        <div class='shop-cart__content'></div>
+        <div class='shop-cart__content p-t-b-8 p-t-b-8 m-t-b-8 border-b'></div>
       </div>
     </script>
+
     <script class="cart-item" type="text/x-handlebars-template">
       {{#each this}}
-        <div class='cart-item__line'>
+        <div class='cart-item__line p-t-b-8'>
           <span class='cart-item__line-name'>
             {{title}}
           </span>
@@ -58,68 +102,86 @@
         </div>
       {{/each}}
     </script>
+
     <script>
       (async () => {
         let cartData = [];
         let shopData = null;
-        let amount = 150;
+        let amount = 300;
+        let preparedArray = [];
+        let source;
+        let template;
+        let html;
 
-        let source = $('.shop-budjet').html();
-        let template = Handlebars.compile(source);
-        let html = template(amount);
-        $('#app').append(html);
+        const renderBudjetSection = () => {
+          source = $('.shop-budjet').html();
+          template = Handlebars.compile(source);
+          html = template(amount);
+          $('#app').append(html);
 
-        $('.shop-budjet__amount').on('blur', (ev) => {
-          console.log(ev.target.innerText);
-          ev.target.innerText = +ev.target.innerText ? +ev.target.innerText : 0;
-        });
-
-        await $.ajax({
-          url: 'https://kodaktor.ru/cart_data.json',
-          method: 'GET',
-        })
-          .done((data) => (shopData = data))
-          .fail((error) => console.error(error));
-        const preparedArray = Object.keys(shopData).map((key, index) => {
-          return { index, title: key, price: shopData[key] };
-        });
-        source = $('.shop-item').html();
-        template = Handlebars.compile(source);
-        html = template(preparedArray);
-        $('#app').append(html);
-        $('.shop-item__button').each(function () {
-          $(this).on('click', (ev) => {
-            ev.stopPropagation();
-            const cartItemSource = $('.cart-item').html();
-            const cartItemTemplate = Handlebars.compile(cartItemSource);
-
-            const foundCartItem = cartData.find(
-              (item) => item.index === +ev.target.dataset.index
-            );
-            const amountData = +$('.shop-budjet__amount').html();
-            console.log('typeof amount =>', typeof amountData);
-
-            amount = amountData;
-
-            if (foundCartItem) {
-              if (amount - foundCartItem.price >= 0) {
-                foundCartItem.count += 1;
-                amount -= foundCartItem.price;
-              }
-            } else {
-              const itemToAdd = preparedArray[+ev.target.dataset.index];
-              if (amount - itemToAdd.price >= 0) {
-                cartData.push({ ...itemToAdd, count: 1 });
-                amount -= itemToAdd.price;
-              }
-            }
-            console.log('amount =>', amount);
-            $('.shop-budjet__amount').html(amount);
-            const cartHtml = cartItemTemplate(cartData);
-            $('.shop-cart__content').html(cartHtml);
+          $('.shop-budjet__amount').on('blur', (ev) => {
+            ev.target.innerText = +ev.target.innerText
+              ? +ev.target.innerText
+              : 0;
           });
-        });
-        console.dir(html);
+        };
+
+        const requestShopItems = async () => {
+          await $.ajax({
+            url: 'https://kodaktor.ru/cart_data.json',
+            method: 'GET',
+          })
+            .done((data) => (shopData = data))
+            .fail((error) => console.error(error));
+        };
+
+        const renderShopItems = async () => {
+          preparedArray = Object.keys(shopData).map((key, index) => {
+            return { index, title: key, price: shopData[key] };
+          });
+          source = $('.shop-item').html();
+          template = Handlebars.compile(source);
+          html = template(preparedArray);
+          $('#app').append(html);
+        };
+
+        const addEventToShopItemButton = () => {
+          $('.shop-item__button').each(function () {
+            $(this).on('click', (ev) => {
+              ev.stopPropagation();
+              const cartItemSource = $('.cart-item').html();
+              const cartItemTemplate = Handlebars.compile(cartItemSource);
+
+              const foundCartItem = cartData.find(
+                (item) => item.index === +ev.target.dataset.index
+              );
+              const amountData = +$('.shop-budjet__amount').html();
+
+              amount = amountData;
+
+              if (foundCartItem) {
+                if (amount - foundCartItem.price >= 0) {
+                  foundCartItem.count += 1;
+                  amount -= foundCartItem.price;
+                }
+              } else {
+                const itemToAdd = preparedArray[+ev.target.dataset.index];
+                if (amount - itemToAdd.price >= 0) {
+                  cartData.push({ ...itemToAdd, count: 1 });
+                  amount -= itemToAdd.price;
+                }
+              }
+              $('.shop-budjet__amount').html(amount);
+              const cartHtml = cartItemTemplate(cartData);
+              $('.shop-cart__content').html(cartHtml);
+            });
+          });
+        };
+
+        renderBudjetSection();
+        await requestShopItems();
+        renderShopItems();
+        addEventToShopItemButton();
       })();
     </script>
   </body>
