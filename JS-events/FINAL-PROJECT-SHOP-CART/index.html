@@ -107,11 +107,21 @@
       (async () => {
         let cartData = [];
         let shopData = null;
-        let amount = 300;
+        let amount = 200;
         let preparedArray = [];
         let source;
         let template;
         let html;
+
+        const disableButtons = () => {
+          preparedArray.forEach((item, index) => {
+            if (+item.price > amount) {
+              $('.shop-item__button').get(index).setAttribute('disabled', true);
+            } else {
+              $('.shop-item__button').get(index).removeAttribute('disabled');
+            }
+          });
+        };
 
         const renderBudjetSection = () => {
           source = $('.shop-budjet').html();
@@ -120,9 +130,11 @@
           $('#app').append(html);
 
           $('.shop-budjet__amount').on('blur', (ev) => {
-            ev.target.innerText = +ev.target.innerText
-              ? +ev.target.innerText
+            amount = parseInt(ev.target.innerText)
+              ? parseInt(ev.target.innerText)
               : 0;
+            ev.target.innerText = amount;
+            disableButtons();
           });
         };
 
@@ -174,6 +186,7 @@
               $('.shop-budjet__amount').html(amount);
               const cartHtml = cartItemTemplate(cartData);
               $('.shop-cart__content').html(cartHtml);
+              disableButtons();
             });
           });
         };
@@ -182,6 +195,7 @@
         await requestShopItems();
         renderShopItems();
         addEventToShopItemButton();
+        disableButtons();
       })();
     </script>
   </body>
