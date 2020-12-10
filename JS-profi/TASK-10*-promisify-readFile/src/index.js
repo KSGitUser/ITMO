@@ -1,21 +1,39 @@
-const { readFile: r } = require("fs");
+const { readFile: r, writeFile: w } = require("fs");
 
-const readFile = pathToFile => new Promise((res, rej) => r(pathToFile, (e, data) => {
-    if (e) return rej(e)
-    return res(data) 
-}));
+const readWriteFile = (pathToReadFile, pathToWriteFile) => {
+    return new Promise((res, rej) => 
+        r(pathToReadFile, (e, data) => {
+                if (e) return rej(e)
+                w(pathToWriteFile, data, (e) => {
+                    if (e) return rej(e);
+                    return res(`File ${pathToWriteFile} was written`)
+                })
 
-readFile("package.json")
-    .then(data => console.log(String(data)))
+        })
+    )};    
+
+readWriteFile("package.json", "packageThen.json")
+    .then(result => console.log(result))
     .catch(e => console.error(e));
 
 
 //with await
 (async ()=> {
     try {
-        const data = await readFile("package.json");
-        console.log(String(data));
+        const result = await readWriteFile("package.json", "packageAwait.json");
+        console.log(result);
     } catch(error) {
         console.log(error)
+    }
+})();
+
+//With promises
+(async () => {
+    const fsPromises = require('fs').promises
+    try {
+        const data = await fsPromises.readFile('package.json');
+        fsPromises.writeFile("packageWithPromises.json", data)
+    } catch(e) {
+        console.error(e)
     }
 })();
