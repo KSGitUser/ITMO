@@ -1,0 +1,11 @@
+{
+  "name": "TASK-8-timerpromise",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Sergey Krikun",
+  "license": "MIT",
+  "type":"module",
+  "dependencies": {
+    "timerpromise": "^1.0.0"
+  }
+}
