@@ -32,7 +32,7 @@ readWriteFile("package.json", "packageThen.json")
     const fsPromises = require('fs').promises
     try {
         const data = await fsPromises.readFile('package.json');
-        fsPromises.writeFile("packageWithPromises.json", data)
+        await fsPromises.writeFile("packageWithPromises.json", data)
     } catch(e) {
         console.error(e)
     }
