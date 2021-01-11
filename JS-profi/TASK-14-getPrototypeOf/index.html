@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="systemjs-importmap">
+        {
+            "imports": {
+                "myModule": "./src/protochain.js"
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <script>let exports = { "__esModule": true };</script>
+    <script src="//cdn.jsdelivr.net/npm/systemjs/dist/system.js"></script>
+    <script type="systemjs-module" src="./src/index.js"></script>
+
+</body>
+
+</html>
