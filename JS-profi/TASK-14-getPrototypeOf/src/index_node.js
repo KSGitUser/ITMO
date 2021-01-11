@@ -15,3 +15,4 @@ const getPrototype = (module) => {
 getPrototype(o3);
 console.log('prototypeArray =>', prototypeArray); // [ 'JavaScript', 'LiveScript', 'Mocha', null ]
 
+exports.prototypeNames = prototypeArray;

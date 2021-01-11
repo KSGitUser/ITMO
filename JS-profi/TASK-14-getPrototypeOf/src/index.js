@@ -21,6 +21,7 @@ System.register(['myModule'], () => {
 
             getPrototype(o3);
             console.log('prototypeArray =>', prototypeArray); // ["JavaScript", "LiveScript", "Mocha", null]
+            exports.prototypeNames = prototypeArray;
         }
     }
 
