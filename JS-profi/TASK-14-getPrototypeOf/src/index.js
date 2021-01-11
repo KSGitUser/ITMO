@@ -12,7 +12,7 @@ System.register(['myModule'], () => {
             const getPrototype = (module) => {
                 if (typeof module === "object") {
                     const prototype = Reflect.getPrototypeOf(module);
-                    prototypeArray.push(prototype);
+                    prototypeArray.push(prototype?.name || null);
                     if (prototype) {
                         getPrototype(prototype);
                     }
@@ -20,7 +20,7 @@ System.register(['myModule'], () => {
             }
 
             getPrototype(o3);
-            console.log('prototypeArray =>', prototypeArray);
+            console.log('prototypeArray =>', prototypeArray); // ["JavaScript", "LiveScript", "Mocha", null]
         }
     }
 
