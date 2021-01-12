@@ -1,20 +1,24 @@
 class Iterable {
     length = 0;
+    randomMin = 0;
+    randomMax = 0;
 
-    constructor(len) {
+    constructor(len, min = 0, max = 2) {
         this.length = len;
+        this.randomMin = min;
+        this.randomMax = max;
     }
 
     *[Symbol.iterator]() {
         let index = 0;
         while (index < this.length) {
             index++;
-            yield this.randomNumber();
+            yield this.randomNumber(this.randomMin, this.randomMax);
         }
 
     }
 
-    randomNumber(min = 0, max = 2) {
+    randomNumber(min, max) {
         let ran
 
         do {
