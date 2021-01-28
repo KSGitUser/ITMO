@@ -1,0 +1,16 @@
+{
+  "name": "Test-Mosha-Chai",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "KS_Git_User",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "mocha": "^8.2.1",
+    "should": "^13.2.3"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "zombie": "^6.1.4"
+  }
+}
