@@ -9,7 +9,7 @@ const headers = {
 const testsNumber = 10;
 const maxNumber = 100;
 
-const cases = (new Array(testsNumber)).fill().map(() => Math.floor(Math.random() * maxNumber));
+const cases = [...new Array(testsNumber)].map(() => Math.floor(Math.random() * maxNumber));
 
 const getSecondNumber = async (firstNumber) => {
     return (
