@@ -4,6 +4,9 @@
   "main": "src/index.js",
   "author": "Sergey Krikun",
   "license": "MIT",
+  "scripts": {
+    "site": "webpack serve --mode development --config ./webpack.config.js"
+  },
   "dependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
